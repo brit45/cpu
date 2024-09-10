@@ -8,6 +8,7 @@
 using Byte = u_char;
 using Word = u_short;
 using u32 = uint;
+using s32 = signed int;
 
 /**
  * @brief  LOGICAL SYSTEM
@@ -32,7 +33,7 @@ struct CPU {
 
     void Reset(MEM &memory); // Reset program
 
-    void Execute(u32 Cycles, MEM &memmory); // Execute program
+    s32 Execute(u32 Cycles, MEM &memmory); // Execute program
 
     Byte FetchByte( u32 &Cycles, MEM &memory); // Read Memory
 
