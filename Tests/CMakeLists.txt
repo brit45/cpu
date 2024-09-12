@@ -11,12 +11,12 @@ set(CTEST_VERBOSE TRUE)
 set(CTEST_OUTPUT_ON_FAILURE TRUE)
 
 
-file(GLOB_RECURSE SRC_LIST 
-    src/*/*.h
-    src/*/*.hpp
-    src/*/*.inl
-    src/*.cpp
-    src/*/*.cpp
+file(GLOB_RECURSE SRC_LIST
+
+	../src/*.h
+	../src/*.hpp
+	../src/*.c
+	../src/*.cpp
 
 )
 
@@ -26,6 +26,6 @@ find_package(GTest)
 
 # Now simply link against gtest or gtest_main as needed. Eg
 add_executable(test_cpu ${SRC_LIST})
-target_link_libraries(test_cpu PUBLIC gtest_main)
+target_link_libraries(test_cpu PUBLIC gtest_main )
 
 add_test(NAME LDATests COMMAND test_cpu)
