@@ -1,9 +1,8 @@
 #include <iostream>
 #include <string>
 #include <gtest/gtest.h>
-#include "Base/cpu.h"
-#include "Base/mem.h"
-
+#include "../../src/cpu.h"
+#include "../../src/mem.h"
 
 class LDATests : public testing::Test {
 
@@ -31,11 +30,19 @@ TEST_F(LDATests, LDAImmediateCanLoadAValueIntoTheRegister) {
 	memory[0xFFFD] = 0x84;
 
 	//-----------------------[ End ] litle endian program
+	
+	CPU CPUCopy = cpu;
+	s32 CyclesUsed = cpu.Execute(2, memory);
 
-	cpu.Execute(2, memory);
-
+	EXPECT_EQ(CyclesUsed, 2);
 	EXPECT_EQ(cpu.A, 0x84);
+	EXPECT_TRUE(cpu.N);
 	EXPECT_FALSE(cpu.Z);
+	EXPECT_EQ(cpu.C, CPUCopy.C);
+	EXPECT_EQ(cpu.B, CPUCopy.B);
+	EXPECT_EQ(cpu.D, CPUCopy.D);
+	EXPECT_EQ(cpu.I, CPUCopy.I);
+	EXPECT_EQ(cpu.V, CPUCopy.V);
 };
 
 TEST_F(LDATests, LDAIZeroPageCanLoadAValueIntoTheRegister)
@@ -48,11 +55,18 @@ TEST_F(LDATests, LDAIZeroPageCanLoadAValueIntoTheRegister)
 	memory[0x0042] = 0x37;
 
 	//-----------------------[ End ] litle endian program
-
+	
+	CPU CPUCopy = cpu;
 	cpu.Execute(3, memory);
 
 	EXPECT_EQ(cpu.A, 0x37);
 	EXPECT_FALSE(cpu.Z);
+	EXPECT_FALSE(cpu.N);
+	EXPECT_EQ(cpu.C, CPUCopy.C);
+	EXPECT_EQ(cpu.B, CPUCopy.B);
+	EXPECT_EQ(cpu.D, CPUCopy.D);
+	EXPECT_EQ(cpu.I, CPUCopy.I);
+	EXPECT_EQ(cpu.V, CPUCopy.V);
 };
 
 TEST_F(LDATests, LDAIZeroPageXCanLoadAValueIntoTheRegister)
@@ -66,11 +80,18 @@ TEST_F(LDATests, LDAIZeroPageXCanLoadAValueIntoTheRegister)
 	memory[0x0047] = 0x37;
 
 	//-----------------------[ End ] litle endian program
-
+	
+	CPU CPUCopy = cpu;
 	cpu.Execute(4, memory);
 
 	EXPECT_EQ(cpu.A, 0x37);
 	EXPECT_FALSE(cpu.Z);
+	EXPECT_FALSE(cpu.N);
+	EXPECT_EQ(cpu.C, CPUCopy.C);
+	EXPECT_EQ(cpu.B, CPUCopy.B);
+	EXPECT_EQ(cpu.D, CPUCopy.D);
+	EXPECT_EQ(cpu.I, CPUCopy.I);
+	EXPECT_EQ(cpu.V, CPUCopy.V);
 };
 
 TEST_F(LDATests, LDAIZeroPageXCanLoadAValueIntoTheRegisterWhenItWraps)
@@ -84,9 +105,15 @@ TEST_F(LDATests, LDAIZeroPageXCanLoadAValueIntoTheRegisterWhenItWraps)
 	memory[0x007F] = 0x37;
 
 	//-----------------------[ End ] litle endian program
-
+	CPU CPUCopy = cpu;
 	cpu.Execute(4, memory);
 
 	EXPECT_EQ(cpu.A, 0x37);
 	EXPECT_FALSE(cpu.Z);
+	EXPECT_FALSE(cpu.N);
+	EXPECT_EQ(cpu.C, CPUCopy.C);
+	EXPECT_EQ(cpu.B, CPUCopy.B);
+	EXPECT_EQ(cpu.D, CPUCopy.D);
+	EXPECT_EQ(cpu.I, CPUCopy.I);
+	EXPECT_EQ(cpu.V, CPUCopy.V);
 };

@@ -11,7 +11,10 @@ void CPU::Reset(MEM &memory) {
     memory.Initialise();
 }
 
-void CPU::Execute(u32 Cycles, MEM &memmory) {
+s32 CPU::Execute(u32 Cycles, MEM &memmory) {
+
+
+	const u32 CyclesRequested = Cycles;
 	
 	while( Cycles > 0) {
 		
@@ -58,7 +61,7 @@ void CPU::Execute(u32 Cycles, MEM &memmory) {
 				Word SubAddr = FetchWord(Cycles, memmory);
 				memmory.WriteWord(Cycles, PC + 1, SP);
 				Cycles--;
-				
+				SP += 2;
 				PC = SubAddr;
 				Cycles--;
 			}
@@ -70,6 +73,10 @@ void CPU::Execute(u32 Cycles, MEM &memmory) {
 			}
 		}
    }
+
+   const s32 NumCyclesUsed = CyclesRequested - Cycles;
+
+   return NumCyclesUsed;
 }
 
 Byte CPU::FetchByte(u32 &Cycles, MEM &memory) {
